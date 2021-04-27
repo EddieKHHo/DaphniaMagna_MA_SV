@@ -37,6 +37,7 @@ SimMutAccumSV will introduce structural variant mutations onto the genome fasta 
 First, pIRS (Hu et al. 2012) is used to generate a diploid ancestor (ANC) genome by duplicating the given genome fasta file and adding SNPs at a specified rate (<em>snp</em>); the fasta files of each homolog of ANC is stored in step1/ as ANC.H1.snp.fa and ANC.H2.snp.fa with the list of simualted SNPS recored in ANC.H1.snp.lst and ANC.H2.snp.lst.
 pIRS requires that fasta file does not contain N's. 
 
+SVFILEANC to tell svsim what mutations to add, only tested with DEL, DUP and INV
 
 
 After all mutations have been simulated, pIRS (Hu et al. 2012) is used to generate paired-end reads with read length <em>rlen</em> and insert size <em>insz</em> at a diploid coverage of <em>x</em>. Reads for the ancestral and <em>ncl</em> non-focal descendent lines are simulated using ANC.H1.4.fa and ANC.H2.4.fa while those for the focal MA line are simulated from MA.H1.4.fa and MA.H2.4.fa. Reads for all lines are stored as fastq format in step3/.

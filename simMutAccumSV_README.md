@@ -38,11 +38,11 @@ The output will be placed into three subdirectories in the working directory: st
 ### Step 1
 SimMutAccumSV will introduce structural variant mutations onto the genome fasta file (<em>c</em>).
 
-First, pIRS (Hu et al. 2012) is used to generate a diploid ancestor (ANC) genome by duplicating the given genome fasta file and adding SNPs at a specified rate (<em>snp</em>); the fasta files of each homolog of ANC is ouput as ANC.H1.1.fa and ANC.H2.1.fa with the list of simualted SNPS recored in ANC.H1.1.lst and ANC.H2.1.lst.
+First, pIRS (Hu et al. 2012) is used to generate a diploid ancestor (ANC) genome by duplicating the given genome fasta file and adding SNPs at a specified rate (<em>snp</em>); the fasta files of each homolog of ANC is ouput as ANC.H1.1.snp.fa and ANC.H2.1.snp.fa with the list of simualted SNPS recored in ANC.H1.1.lst and ANC.H2.1.lst.
 pIRS requires that fasta file does not contain N's. 
 
 
-Subsequently <em>svna</em> "ancestral" SVs as specified by <em>svfa</em> are added to all lines and <em>svnm</em> "MA" SVs as specified by <em>svfm</em> are added to one MA line. <em>svfa</em> and <em>svfm</em> are used for the -i argument in SVsim and must follow the specified format. <em>svna</em> and <em>svnm</em> are used for the -n argument in SVsim. The random seed <em>svs</em> is used for the -s argument in SVsim.  
+Next, <em>svna</em> "ancestral" SVs as specified by <em>svfa</em> are added to all lines and <em>svnm</em> "MA" SVs as specified by <em>svfm</em> are added to one MA line. <em>svfa</em> and <em>svfm</em> are used for the -i argument in SVsim and must follow the specified format. <em>svna</em> and <em>svnm</em> are used for the -n argument in SVsim. The random seed <em>svs</em> is used for the -s argument in SVsim.  
 Note: This program has only been tested for introducting DEL, DUP, and INV mutation types in SVsim.
 
 
@@ -52,11 +52,22 @@ Argument <em>mut</em> determines the form of SV mutation that is introduced:
 * <em>mut</em> = 3 will introduce heterozygous SVs in all lines and heterozygous SVs -> homozygous reference in the MA line.
 * <em>mut</em> = 4 will introduce homozygous SVs in all lines and SVs mutations of all three types in the MA line.
 
+
+Fasta files of the ANC genome with SV mutations will be output as ANC.H1.3.fasta and ANC.H1.3.fasta (if <em>mut</em> = 4, then it will be ANC.H1.3B.fasta and ANC.H2.3B.fasta).  
+Fasta files of the MA genome with SV mutations will be output as MA.H1.3.fasta and MA.H1.3.fasta (if <em>mut</em> = 4, then it will be MA.H1.3B.fasta and MA.H2.3B.fasta).
+
+
 ### Step 2
-After adding the SV mutations into the genome, pIRS (Hu et al. 2012) is used to add unique SNPs into all descendant lines 
+After adding the SV mutations into the genome, pIRS (Hu et al. 2012) is used to generate <em>ncl</em> unmutated descendant lines using the ANC genome as reference and adding SNPs at a specified rate (<em>snp</em>). Fasta files of these descendant lines are output as CL{i}.H1.4.snp.fa and CL{i}.H2.4.snp.fa, where {i} goes from 1 to <em>ncl</em>.
+
+
+Similarly, SNPs will be added to the focal MA line at a specified rate (<em>snp</em>). Fasta files of these MA line is output as MA.H1.4.snp.fa and MA.H2.4.snp.fa.
 
 ### Step 3
-After all mutations have been simulated, pIRS (Hu et al. 2012) is used to generate paired-end reads with read length <em>rlen</em> and insert size <em>insz</em> at a diploid coverage of <em>x</em>. Reads for the ancestral and <em>ncl</em> non-focal descendent lines are simulated using ANC.H1.4.fa and ANC.H2.4.fa while those for the focal MA line are simulated from MA.H1.4.fa and MA.H2.4.fa. Reads for all lines are stored as fastq format in step3/.
+After all mutations have been simulated, pIRS (Hu et al. 2012) is used to generate paired-end reads with read length <em>rlen</em> and insert size <em>insz</em> at a diploid coverage of <em>x</em>.
+* Reads for the ANC line is simulated using ANC.H1.3.fasta and ANC.H2.3.fasta (ANC.H1.3B.fasta and ANC.H2.3B.fasta, if <em>mut</em> = 4) and output as ANC_1.fq.gz and ANC_2.fq.gz.
+* Reads for the CL lines are simulated using CL{i}.H1.4.snp..fa and CL{i}.H2.4.snp.fa and output as CL{i}_1.fq.gz and CL{i}_2.fq.gz.
+* Reads for the MA line is simulated using MA.H1.4.snp.fa and MA.H2.4.snp.fa and output as MA_1.fq.gz and MA_2.fq.gz.
 
 ## References
 - Hu X, Yuan J, Shi Y, Lu J, Liu B, Li Z, Chen Y, Mu D, Zhang H, Yue Z, Bai F, Li H, Fan W. pIRS: Profile-based illumine pair-end reads simulator. Bioinformatics. 2012;28(11):1533-35.

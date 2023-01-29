@@ -73,4 +73,4 @@ After all mutations have been simulated, pIRS (Hu et al. 2012) is used to genera
 - Hu X, Yuan J, Shi Y, Lu J, Liu B, Li Z, Chen Y, Mu D, Zhang H, Yue Z, Bai F, Li H, Fan W. pIRS: Profile-based illumine pair-end reads simulator. Bioinformatics. 2012;28(11):1533-35.
 
 ## Citation
-If you used simMutAccumSV in you work, please cite:
+Ho EKH, Schaack S (2021) Intraspecific Variation in the Rates of Mutations Causing Structural Variation in *Daphnia magna*. Genome Biology and Evolution, 13: 1-8. [Link](https://academic.oup.com/gbe/article/13/12/evab241/6444992)
